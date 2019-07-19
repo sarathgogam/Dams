@@ -1,0 +1,286 @@
+package com.gdas.struts2;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import org.apache.commons.io.FileUtils;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class DamsHome extends ActionSupport{
+
+	private String comment;
+	private String loginname;
+	private User us=new User();
+	
+	
+	ArrayList<User> list=new ArrayList<User>();
+	
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getLoginname() {
+		return loginname;
+	}
+
+
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
+	}
+
+	public User getUs() {
+		return us;
+	}
+
+
+	public void setUs(User us) {
+		this.us = us;
+	}
+	
+	public ArrayList<User> getList() {
+		return list;
+	}
+	public void setList(ArrayList<User> list) {
+		this.list = list;
+	}
+	
+	
+	public String damsmain() throws Exception{
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		System.err.println("getComment   "+getComment());
+		
+		try {
+			String URL = "jdbc:oracle:thin:@192.168.1.5:1521:gdasdev";
+	         Class.forName("oracle.jdbc.driver.OracleDriver");
+	         conn = DriverManager.getConnection(URL, "dams_freshers", "dams_freshers");
+	         st=conn.createStatement();
+	         String sql ="SELECT * FROM S_DAMSFORM left join S_DAMSFILE on S_DAMSFORM.loginname=S_DAMSFILE.loginname order By S_DAMSFORM.loginname";
+
+	         rs = st.executeQuery(sql);
+	         while(rs.next()){
+	        	 User da = new User();
+	        	 da.setLoginname(rs.getString(1));
+	        	 da.setRolename(rs.getString(2));
+	        	 da.setPassword(rs.getString(3));
+	        	 da.setFirstname(rs.getString(4));
+	        	 da.setMiddlename(rs.getString(5));
+	        	 da.setLastname(rs.getString(6));
+	        	 da.setAddress(rs.getString(7));
+	        	 da.setCountry(rs.getString(8));
+	        	 da.setEmail(rs.getString(9));
+	        	 da.setBbo(rs.getString(10));
+	        	 da.setRdo(rs.getString(11));
+	        	 da.setMyFileFileName(rs.getString(12));
+	        	 list.add(da);
+	        	 
+	        	 
+	         }
+			conn.close();
+			
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return SUCCESS;
+	}
+	
+	
+	
+	public String damsform() throws Exception{
+		
+		
+		
+		  return SUCCESS;
+	}
+	
+	
+	
+     public String damsRegform() throws Exception{
+		
+		Connection conn = null;
+	    PreparedStatement ps=null;
+	    PreparedStatement ps1=null;
+	    ResultSet rs=null;
+	    String bbo="yes";
+	    String ed="edit";
+		  int i=0;
+		  int i1=0;
+		 String destPath="C:\\images\\file";
+		  
+		  try {
+			  
+			//  us=new User();
+			     String URL = "jdbc:oracle:thin:@192.168.1.5:1521:gdasdev";
+		         Class.forName("oracle.jdbc.driver.OracleDriver");
+		         conn = DriverManager.getConnection(URL, "dams_freshers", "dams_freshers");
+		         if(loginname==null || loginname.isEmpty()) {
+		        	 String sql = " insert into S_DAMSFORM values(?,?,?,?,?,?,?,?,?,?,?)";
+			         ps=conn.prepareStatement(sql);
+			         ps.setString(1, us.getLoginname());
+			         ps.setString(2, us.getRolename());
+			         ps.setString(3, us.getPassword());
+			         ps.setString(4, us.getFirstname());
+			         ps.setString(5, us.getMiddlename());
+			         ps.setString(6, us.getLastname());
+			         ps.setString(7, us.getAddress());
+			         ps.setString(8, us.getCountry());
+			         ps.setString(9, us.getEmail());
+			         ps.setString(10, bbo);
+			         ps.setString(11, us.getRdo());
+			         i=ps.executeUpdate();
+			         
+			         File destFile  = new File(destPath+us.getMyFileFileName());
+			         FileUtils.copyFile(us.getMyFile(), destFile);
+			         String newDestFile=destFile+" ";
+			         String sql1 = " insert into S_DAMSFILE values(?,?)";
+			         ps1=conn.prepareStatement(sql1);
+			         ps1.setString(1, newDestFile);
+			         ps1.setString(2, us.getLoginname());
+			         
+			         //System.out.println(1/0);
+			         i=ps1.executeUpdate();  
+			       	
+		         }else {
+		        	 String sql = "update S_DAMSFORM set ROLENAME=?,PASSWORD=?,FIRSTNAME=?,MIDDLENAME=?,LASTNAME=?,ADDRESS=?,COUNTRY=?,EMAILID=?,BUNKERBARGEOPTION=?,REVERTDAOPTION=? where LOGINNAME=?";
+		             ps=conn.prepareStatement(sql);
+		             ps.setString(++i, us.getRolename());
+		             ps.setString(++i, us.getPassword());
+		             ps.setString(++i, us.getFirstname());
+		             ps.setString(++i, us.getMiddlename());
+		             ps.setString(++i, us.getLastname());
+		             ps.setString(++i, us.getAddress());
+		             ps.setString(++i, us.getCountry());
+		             ps.setString(++i, us.getEmail());
+		             ps.setString(++i, bbo);
+		             ps.setString(++i, us.getRdo());
+		             ps.setString(++i, loginname);
+		             i=ps.executeUpdate();
+		             
+		             File destFile  = new File(destPath+us.getMyFileFileName());
+			         FileUtils.copyFile(us.getMyFile(), destFile);
+		             String newDestFile=destFile+" ";
+		             String sql12="update S_DAMSFILE  set FILEPATH=? where LOGINNAME=?";
+		             ps1=conn.prepareStatement(sql12);
+		             ps1.setString(++i, newDestFile);
+		             ps1.setString(++i, loginname);
+		             
+		             i=ps1.executeUpdate();
+		             
+		         }
+		         	         
+		        
+		  }catch(Exception e) {
+			  e.printStackTrace();
+			  
+		  }
+		  if(i<=0) {
+			  return INPUT;
+		  }else {
+			  return SUCCESS;
+			  }
+		  
+	}
+	
+   
+
+//   public String update() throws Exception{
+//	Connection conn = null;
+//    PreparedStatement ps=null;
+//    
+//    String bbo="yes";
+//    
+//    
+//    try {
+//    	
+//    	String URL = "jdbc:oracle:thin:@192.168.1.5:1521:gdasdev";
+//         Class.forName("oracle.jdbc.driver.OracleDriver");
+//         conn = DriverManager.getConnection(URL, "dams_freshers", "dams_freshers");
+//         String sql = "update S_DAMSFORM set ROLENAME=?,PASSWORD=?,FIRSTNAME=?,MIDDLENAME=?,LASTNAME=?,ADDRESS=?,COUNTRY=?,EMAILID=?,BUNKERBARGEOPTION=?,REVERTDAOPTION=? where LOGINNAME=?";
+//         ps=conn.prepareStatement(sql);
+//         
+//         int i=0;
+//         
+//         ps.setString(++i, us.getRolename());
+//         ps.setString(++i, us.getPassword());
+//         ps.setString(++i, us.getFirstname());
+//         ps.setString(++i, us.getMiddlename());
+//         ps.setString(++i, us.getLastname());
+//         ps.setString(++i, us.getAddress());
+//         ps.setString(++i, us.getCountry());
+//         ps.setString(++i, us.getEmail());
+//         ps.setString(++i, bbo);
+//         ps.setString(++i, us.getRdo());
+//         ps.setString(++i, us.getLoginname());
+//    	
+//         int i1=ps.executeUpdate();
+//    }catch(Exception e) {
+//    	
+//    	e.printStackTrace();
+//    	
+//    }
+//	
+//	
+//	return SUCCESS;
+//}
+
+
+   public String damsedit() throws Exception{
+	
+	Connection conn = null;
+	PreparedStatement pst = null;
+	ResultSet rs = null;
+	String bbo="yes";
+	us = new User();
+	try {
+		
+		String URL = "jdbc:oracle:thin:@192.168.1.5:1521:gdasdev";
+         Class.forName("oracle.jdbc.driver.OracleDriver");
+         conn = DriverManager.getConnection(URL, "dams_freshers", "dams_freshers");
+         String sql="select * from S_DAMSFORM sd,  S_DAMSFILE sf where sd.loginname=sf.loginname and sd.loginname=?";
+		 pst=conn.prepareStatement(sql);
+		 pst.setString(1, loginname);
+		 
+		 rs=pst.executeQuery();
+		 while(rs.next()) {
+			 us.setLoginname(rs.getString(1));
+			 us.setRolename(rs.getString(2));
+			 us.setPassword(rs.getString(3));
+			 us.setFirstname(rs.getString(4));
+			 us.setMiddlename(rs.getString(5));
+		     us.setLastname(rs.getString(6));
+		     us.setAddress(rs.getString(7));
+		     us.setCountry(rs.getString(8));
+		     us.setEmail(rs.getString(9));
+		     us.setBbo(rs.getString(10));
+		     us.setRdo(rs.getString(11));
+		     us.setMyFileFileName(rs.getString(15));
+			  
+		 }
+		 
+	}catch(Exception e) {
+		
+		e.printStackTrace();
+	}
+	
+	return SUCCESS;
+   }
+   
+   public String close() throws Exception{
+	   
+	   
+	   return SUCCESS;
+   }
+
+}
