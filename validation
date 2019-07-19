@@ -1,0 +1,93 @@
+ <!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+   
+   
+   <validators>
+   
+   <field name = "us.loginname">
+      <field-validator type = "requiredstring">
+         <message>
+            The LoginName is required.
+         </message>
+      </field-validator>
+   </field>
+   
+   <field name = "us.rolename">
+      <field-validator type = "requiredstring">
+         <message>
+            The RoleName is required.
+         </message>
+      </field-validator>
+   </field>
+   
+   <field name="us.password">
+        <field-validator type="requiredstring">
+             <message>The password is required </message>
+        </field-validator>
+        </field>
+        
+   <field name = "us.firstname">
+      <field-validator type = "requiredstring">
+         <message>
+            The FirstName is required.
+         </message>
+      </field-validator>
+   </field>
+   
+   <field name = "us.middlename">
+      <field-validator type = "requiredstring">
+         <message>
+            The MiddleName is required.
+         </message>
+      </field-validator>
+   </field>
+   
+   <field name = "us.lastname">
+      <field-validator type = "requiredstring">
+         <message>
+            The LastName is required.
+         </message>
+      </field-validator>
+   </field>
+   
+   <field name = "us.address">
+      <field-validator type = "requiredstring">
+         <message>
+            The Address is required.
+         </message>
+      </field-validator>
+   </field>
+   
+   
+   <field name = "us.country">
+      <field-validator type = "requiredstring">
+         <message>
+            The Country is required.
+         </message>
+      </field-validator>
+   </field>
+   
+    <field name="us.email">
+       <field-validator type="requiredstring">
+            <message>email is required.</message>
+        </field-validator>
+        
+        <field-validator type="email">
+            <message> valid email is required.</message>
+        </field-validator>
+        <!-- <field-validator type="fieldexpression">
+            <param name="expression">(@gmail.com)</param>
+            <message>Use only GMail.</message>
+        </field-validator> -->
+   </field> 
+   
+   
+   
+   
+  
+  
+   </validators> 
+   
+   
+   
+   DamsHome-damsRegform-validation.xml
