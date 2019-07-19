@@ -1,0 +1,36 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>  
+    <!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Dams Form</title>
+</head>
+<body bgcolor="#E6E6FA"  width="50" height="30">
+
+<h2>Welcome to Admin Registration</h2>
+<s:form action="damsRegform" validate="true" method = "post" enctype = "multipart/form-data">
+<s:hidden name="loginname"></s:hidden>
+<s:textfield name="us.loginname" label="Login Name" />
+<s:select label="Role Name" name="us.rolename"  list="{'Admin','Supervioser','Executive'}" headerKey="-1" headerValue="---Select Roll---"/>
+<s:password name="us.password" label="Password" showPassword="true"/>
+<s:textfield name="us.firstname" label="First Name"/>
+<s:textfield name="us.middlename" label="Middle Name"/>
+<s:textfield name="us.lastname" label="Last Name"/>
+<s:textarea  name="us.address" label="Address" cols="40" rows="5"/>
+<s:select label="Country" name="us.country"  list="{'india','pakistan','Australia','Bangladesh','China','Denmark','Germany','Ireland','Japan','Kenya'}" headerKey="-1" headerValue="---Select Country---"/>
+<s:textfield name="us.email" label="EmailId"/>
+<s:checkbox label="Bunker Barge Option" name="us.bbo"/>
+<s:radio label="Revert DA Option" name="us.rdo"  list="{'yes','no'}"/>
+<s:file name="us.myFile" label="Upload your file" type="button"/>
+<s:submit type="button" label="save"/>
+</s:form>
+<a href action="damsmain.action">close</a>
+<%-- <s:form action="closeDamsRegForm" validate="true">
+
+<s:submit  type="button" label="close"/>
+</s:form> --%>
+</body>
+</html>
