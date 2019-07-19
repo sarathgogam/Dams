@@ -1,0 +1,65 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>  
+    <!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<html>
+<head>
+<style>
+body  {
+  background-image: url("paper.gif");
+  background-color: #cccccc;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Success</title>
+</head>
+<body>
+
+<h2 align="center"><font><strong>Welcome to Home Page</strong></font></h2>
+<s:form>
+
+<s:submit value="Add"  action="damsform"/>
+
+</s:form>
+
+<s:property value="comment"/>
+<!-- <input type="button" value="Add" action="damsform"> -->
+<table align="center" cellpadding="5" cellspacing="5" border="1">
+
+<tr bgcolor="#A52A2A">
+<td><b>LOGINNAME</b></td>
+<td><b>ROLENAME</b></td>
+<td><b>PASSWORD</b></td>
+<td><b>FIRSTNAME</b></td>
+<td><b>MIDDLENAME</b></td>
+<td><b>LASTNAME</b></td>
+<td><b>ADDRESS</b></td>
+<td><b>COUNTRY</b></td>
+<td><b>EMAILID</b></td>
+<td><b>BUNKERBARGEOPTION</b></td>
+<td><b>REVERTDAOPTION</b></td>
+<td><b>EDITDETAILS</b></td>
+<td><b>FILEPATH</b></td>
+</tr>
+<s:iterator value="list">  
+    <tr bgcolor="#DEB887">
+    <td><s:property value="loginname"/></td>
+    <td><s:property value="rolename"/></td>
+    <td><s:property value="password"/></td>
+    <td><s:property value="firstname"/></td>
+    <td><s:property value="middlename"/></td>
+    <td><s:property value="lastname"/></td>
+    <td><s:property value="address"/></td>
+    <td><s:property value="country"/></td>
+    <td><s:property value="email"/></td>
+    <td><s:property value="bbo"/></td>
+    <td><s:property value="rdo"/></td>
+    <td><a href="edit.action?loginname=${loginname}">Edit</a></td>
+    <td><s:property value="myFileFileName"/></td>
+    <%-- <a href="edit.action?loginname=${loginname}">View/Edit</a>  </td> --%>
+    </tr>
+</s:iterator>   
+</table>  
+</body>
+</html>
