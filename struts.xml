@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<constant name = "struts.devMode" value = "true" />
+<constant name = "struts.multipart.maxSize" value = "1000000" />
+<package name ="default"  extends ="struts-default" namespace="/" >
+
+
+<action name="hello" class="com.gdas.struts2.HelloWorldAction" method="execute">
+<result name="success">/HelloWorld.jsp</result>
+<result name="error">/AccessDenied.jsp</result>
+</action>
+ 
+
+		<action name="product" class="com.gdas.struts2.Product">
+			<result name="SUCCESS">/Welcome.jsp</result>
+		</action>
+		
+		
+
+<action name="login" class="com.gdas.struts2.Login">
+<result name="success">/Welcome_user.jsp</result>
+<result name="error">/WelcomeBack_user.jsp</result>
+</action>
+
+
+
+<action name = "hello1" 
+         class = "com.gdas.struts2.HelloWorldAction1" 
+         method = "execute">
+         <result name = "ramprasad">/HelloWorld1.jsp</result>
+      </action>
+      
+      
+      
+
+<action name = "upload" class = "com.gdas.struts2.UploadFile" method="upload">
+         <result name = "success">/success.jsp</result>
+         <result name = "error">/error.jsp</result>
+      </action>
+      
+      
+      
+    <!--   <action name = "upload" class = "com.gdas.struts2.UploadFile">
+   <interceptor-ref name = "basicStack"></interceptor-ref>
+   <interceptor-ref name = "fileUpload"></interceptor-ref>
+      <param name = "allowedTypes">image/jpeg,image/gif</param>
+   
+   <result name = "success">/success.jsp</result>
+   <result name = "error">/error.jsp</result>
+</action> -->
+
+<action name = "loginaction" class = "com.gdas.struts2.LoginAction" method="execute">
+         <result name = "success">/DbaseSuccess.jsp</result>
+         <result name = "error">/DbaseError.jsp</result>
+      </action>
+
+
+<action name="empinfo" class="com.gdas.struts2.ValidateAction" method="execute">
+<result name="input">ValidationIndex.jsp</result>
+<result name="success">ValidateSuccess.jsp</result>
+</action>
+
+
+<action name="register" class="com.gdas.struts2.RegisterAction" method="execute">
+<result name="input">/RegisterError.jsp</result>
+<result name="success">/RegisterSuccess.jsp</result>
+</action>
+
+
+<action name="download" class="com.gdas.struts2.DownloadFileAction">
+<result name="success" type="stream">
+	  <param name="contentType">application/octet-stream</param>
+	  <param name="inputName">fileInputStream</param>
+	  <param name="contentDisposition">attachment;filename="download.png"</param>
+	  <param name="bufferSize">1024</param>
+	</result>
+</action>
+
+<action name="damsmain" class="com.gdas.struts2.DamsHome" method="damsmain">
+<result name="success">/DamsScreenList.jsp</result>
+<result name="input">/DamsScreenList.jsp</result>
+</action>
+
+<action name="damsform" class="com.gdas.struts2.DamsHome" method="damsform">
+<result name="success">/DamsRegistration.jsp</result>
+<result name="input">/DamsScreenList.jsp</result>
+</action>
+
+<action name="damsRegform" class="com.gdas.struts2.DamsHome" method="damsRegform">
+<result name="success" type="redirectAction">
+        <param name="actionName">damsmain</param>
+        <param name="comment">Successfully Registered</param></result>
+<result name="input" type="redirectAction">
+        <param name="actionName">damsmain</param>
+        <param name="comment">Not Successfully Registered</param>
+        </result>
+        
+
+</action>
+
+<!-- <action name="damsRegform" class="com.gdas.struts2.DamsHome" method="update">
+<result name="success" type="redirectAction">
+        <param name="actionName">damsmain</param>
+        <param name="comment">Successfully Registered</param></result>
+<result name="input" type="redirectAction">
+        <param name="actionName">damsmain</param>
+        <param name="comment">Not Successfully Registered</param>
+        </result>
+</action> -->
+
+
+
+<action name="closeaction" class="com.gdas.struts2.DamsHome" method="close">
+<result name="success">/DamsScreenList.jsp</result>
+</action>
+
+ <action name="edit" class="com.gdas.struts2.DamsHome" method="damsedit">
+<result name="success">/DamsRegistration.jsp</result>
+<result name="input">/DamsScreenList.jsp</result>
+</action> 
+
+
+<action name="verify" class="com.gdas.struts2.Task" method="execute">
+        <interceptor-ref name="defaultStack" />
+        <interceptor-ref name="timer"/>
+<result name="success">/TaskSuccess.jsp</result>
+</action>
+</package>
+
+</struts>
